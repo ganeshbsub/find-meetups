@@ -6,13 +6,15 @@ defmodule FindMeetups.Meetup do
     field :urlname, :string
     field :link, :string
     field :category, :string
+    field :members, :integer
+
     belongs_to :city, FindMeetups.City
 
     timestamps
   end
 
-  @required_fields ~w(name urlname link category)
-  @optional_fields ~w()
+  @required_fields ~w(name urlname link category members)
+  @optional_fields ~w(city_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

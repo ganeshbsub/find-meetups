@@ -3,4 +3,6 @@
   <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
 </div>
 
+
+<%= link "Get Cities", to: page_path(@conn, :get_cities) %>
 <%= link "Get Meetups", to: page_path(@conn, :get_meetups) %>

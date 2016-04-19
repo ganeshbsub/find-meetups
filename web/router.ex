@@ -25,6 +25,7 @@ defmodule FindMeetups.Router do
   scope "/api", FindMeetups do
     pipe_through :api
 
-    get "/countries_meetups", PageController, :get_meetups
+    get "/meetups", PageController, :get_meetups
+    get "/cities", PageController, :get_cities
   end
 end
