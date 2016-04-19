@@ -9,11 +9,11 @@ defmodule FindMeetups.PageController do
     render conn, "index.html"
   end
 
-  def get_meetups(conn, params) do
+  def get_cities(conn, params) do
+    # !!!! DONE !!!!!
     key="6e3c491fd2471e257c557c1d621e23"
     countries= ["BE", "GR", "LT", "PT", "BG", "ES", "LU", "RO", "CZ", "FR", "HU", "SI", "DK", "HR", "MT", "SK", "DE", "IT", "NL", "FI", "EE", "CY", "AT", "SE", "IE", "LV", "PL", "GB", "NO", "CH", "RS", "TR", "UA"]
     HTTPoison.start
-
     Enum.each countries, fn(country) ->
       Logger.debug country
       {:ok, response} = HTTPoison.get "https://api.meetup.com/2/cities?country="<>country<>"&key="<>key
@@ -21,15 +21,25 @@ defmodule FindMeetups.PageController do
       
       body = Poison.Parser.parse!(body)
       cities = Map.get(body, "results")
-      Logger.debug List.first(results)["city"]
-
+      cities = Enum.slice(cities, 1, 100)
       Enum.each cities, fn(city) ->
-        
+        name = city["city"]
+        city_to_be_changed = 
+          case Repo.get_by(City, name: name) do
+            nil -> %City{}
+            result -> result
+          end
+        city_params = %{name: name, country: country}
+        changeset = City.changeset(city_to_be_changed, city_params)
+        Repo.insert_or_update(changeset)
       end
-
     end
+    text conn, ""
+  end
 
-    conn(200, "")
+  def get_meetups(conn, params) do
+    key="6e3c491fd2471e257c557c1d621e23"
+
   end
 end
 
