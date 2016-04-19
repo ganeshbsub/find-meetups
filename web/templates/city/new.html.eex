@@ -1,0 +1,6 @@
+<h2>New city</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: city_path(@conn, :create) %>
+
+<%= link "Back", to: city_path(@conn, :index) %>

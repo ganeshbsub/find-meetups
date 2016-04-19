@@ -1,0 +1,32 @@
+<h2>Listing meetups</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Urlname</th>
+      <th>Link</th>
+      <th>Category</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for meetup <- @meetups do %>
+    <tr>
+      <td><%= meetup.name %></td>
+      <td><%= meetup.urlname %></td>
+      <td><%= meetup.link %></td>
+      <td><%= meetup.category %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: meetup_path(@conn, :show, meetup), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: meetup_path(@conn, :edit, meetup), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: meetup_path(@conn, :delete, meetup), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New meetup", to: meetup_path(@conn, :new) %>

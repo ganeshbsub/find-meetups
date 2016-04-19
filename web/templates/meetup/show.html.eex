@@ -1,0 +1,28 @@
+<h2>Show meetup</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @meetup.name %>
+  </li>
+
+  <li>
+    <strong>Urlname:</strong>
+    <%= @meetup.urlname %>
+  </li>
+
+  <li>
+    <strong>Link:</strong>
+    <%= @meetup.link %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @meetup.category %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: meetup_path(@conn, :edit, @meetup) %>
+<%= link "Back", to: meetup_path(@conn, :index) %>

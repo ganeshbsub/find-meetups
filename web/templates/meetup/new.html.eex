@@ -1,0 +1,6 @@
+<h2>New meetup</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: meetup_path(@conn, :create) %>
+
+<%= link "Back", to: meetup_path(@conn, :index) %>

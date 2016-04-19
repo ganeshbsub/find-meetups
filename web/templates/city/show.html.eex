@@ -1,0 +1,18 @@
+<h2>Show city</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @city.name %>
+  </li>
+
+  <li>
+    <strong>Country:</strong>
+    <%= @city.country %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: city_path(@conn, :edit, @city) %>
+<%= link "Back", to: city_path(@conn, :index) %>
