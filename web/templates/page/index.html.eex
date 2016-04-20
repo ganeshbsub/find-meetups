@@ -4,5 +4,6 @@
 </div>
 
 
-<%= link "Get Cities", to: page_path(@conn, :get_cities) %>
-<%= link "Get Meetups", to: page_path(@conn, :get_meetups) %>
+<!--<%= link "Get Cities", to: page_path(@conn, :get_cities) %>
+<%= link "Get Meetups", to: page_path(@conn, :get_meetups) %>-->
+

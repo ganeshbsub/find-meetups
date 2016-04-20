@@ -1,23 +1,26 @@
 <h2>Listing meetups</h2>
-
+<h3><%=  %></h3>
 <table class="table">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
-      <th>Urlname</th>
       <th>Link</th>
       <th>Category</th>
+      <th>Members</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
+
 <%= for meetup <- @meetups do %>
     <tr>
+      <td><%= meetup.id %></td>
       <td><%= meetup.name %></td>
-      <td><%= meetup.urlname %></td>
-      <td><%= meetup.link %></td>
+      <td><%= link meetup.link, to: meetup.link %></td>
       <td><%= meetup.category %></td>
+      <td><%= meetup.members %></td>
 
       <td class="text-right">
         <%= link "Show", to: meetup_path(@conn, :show, meetup), class: "btn btn-default btn-xs" %>

@@ -14,7 +14,7 @@
 
   <li>
     <strong>Link:</strong>
-    <%= @meetup.link %>
+    <%= link @meetup.link, to: @meetup.link, id: "meetup-link" %>
   </li>
 
   <li>
@@ -26,3 +26,6 @@
 
 <%= link "Edit", to: meetup_path(@conn, :edit, @meetup) %>
 <%= link "Back", to: meetup_path(@conn, :index) %>
+<%= if @meetup.id < 1141 do %>
+  <%= link "Next", to: meetup_path(@conn, :show, @meetup.id+1), id: "next-button" %>
+<% end %>

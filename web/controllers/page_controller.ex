@@ -21,7 +21,7 @@ defmodule FindMeetups.PageController do
       
       body = Poison.Parser.parse!(body)
       cities = Map.get(body, "results")
-      cities = Enum.slice(cities, 0, 100)
+      #cities = Enum.slice(cities, 0, 100)
       Enum.each cities, fn(city) ->
         name = city["city"]
         city_to_be_changed = 
@@ -43,29 +43,36 @@ defmodule FindMeetups.PageController do
     ember = "632142"
     locations = Repo.all(City)
 
-    locations = Enum.slice(locations, 0, 5)
+    locations = Enum.slice(locations, 3300, 300)
     Enum.each locations, fn(location) ->
-      {:ok, response} = HTTPoison.get "https://api.meetup.com/find/groups?topic_id="<>ember<>"&country="<>location.country<>"&location="<>location.name<>"&order=members&key="<>key
+      name = String.replace(location.name, " ", "+")
+      Logger.debug name
+      {:ok, response} = HTTPoison.get "https://api.meetup.com/find/groups?key="<>key<>"&topic_id="<>js<>"&country="<>location.country<>"&location="<>name<>"&order=members&fallback_suggestions=false&radius=1"
       body = Map.get(response, :body)
       meetups = Poison.Parser.parse!(body)
+
+      Logger.debug body
       #(name urlname link category members)
 
       Enum.each meetups, fn(meetup) ->
-        meetup_params = %{name: meetup["name"], urlname: meetup["urlname"], link: meetup["link"], category: "ember", members: meetup["members"], city_id: location.id}
+        meetup_params = %{name: meetup["name"], urlname: meetup["urlname"], link: meetup["link"], category: "js", members: meetup["members"], city_id: location.id}
         meetup_to_be_changed =
           case Repo.get_by(Meetup, urlname: meetup_params.urlname) do
-            nil -> %Meetup{}
+            nil -> nil
             result -> result
           end
-        changeset = Meetup.changeset(meetup_to_be_changed, meetup_params)
-        Repo.insert_or_update(changeset)
+
+        if meetup_to_be_changed == nil do
+          changeset = Meetup.changeset(%Meetup{}, meetup_params)
+          {result, model} = Repo.insert_or_update(changeset)
+          Logger.debug location.id
+        else
+          Logger.debug meetup_params.name<>" Already exists"
+        end
+        
       end
 
     end
-
-    
-    
-
 
     text conn, ""
   end
@@ -77,3 +84,4 @@ end
 
 # https://api.meetup.com/2/cities?country=
 # https://api.meetup.com/find/groups?topic_id=&country=&location=
+

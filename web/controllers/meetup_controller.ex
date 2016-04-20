@@ -6,7 +6,8 @@ defmodule FindMeetups.MeetupController do
   plug :scrub_params, "meetup" when action in [:create, :update]
 
   def index(conn, _params) do
-    meetups = Repo.all(Meetup)
+
+    meetups = Repo.all(Meetup |> Ecto.Query.order_by(desc: :members) |> Ecto.Query.where([c], c.members > 300))
     render(conn, "index.html", meetups: meetups)
   end
 
